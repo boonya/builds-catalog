@@ -8,7 +8,8 @@
     "mikestead.dotenv",
     "editorconfig.editorconfig",
     "walter-ribeiro.full-react-snippets",
-    "firsttris.vscode-jest-runner"
+    "firsttris.vscode-jest-runner",
+    "andys8.jest-snippets"
   ],
   "unwantedRecommendations": []
 }

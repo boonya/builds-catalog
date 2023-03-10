@@ -1,5 +1,5 @@
 {
-  "name": "my-create-react-app",
+  "name": "builds-catalog",
   "version": "1.0.0",
   "description": "",
   "author": "Serhii <boonya> Buinytskyi",
@@ -24,8 +24,7 @@
     "lodash.pick": "^4.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-helmet-async": "^1.3.0",
-    "react-router-dom": "^6.9.0"
+    "react-helmet-async": "^1.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.21.0",
