@@ -1,7 +1,7 @@
 {
   "name": "builds-catalog",
   "version": "1.0.0",
-  "description": "",
+  "description": "Storybook builds catalog",
   "author": "Serhii <boonya> Buinytskyi",
   "license": "MIT",
   "engines": {
