@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "ofhumanbondage.react-proptypes-intellisense",
+    "suming.react-proptypes-generate",
+    "tyriar.sort-lines",
+    "gruntfuggly.todo-tree",
+    "dbaeumer.vscode-eslint",
+    "mikestead.dotenv",
+    "editorconfig.editorconfig",
+    "walter-ribeiro.full-react-snippets",
+    "firsttris.vscode-jest-runner"
+  ],
+  "unwantedRecommendations": []
+}
