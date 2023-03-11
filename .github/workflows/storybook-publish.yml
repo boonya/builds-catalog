@@ -28,18 +28,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version-file: ".nvmrc"
-      - run: npm ci
-      - name: "Build storybook"
-        run: APP_PREFIX=/${{ env.REPO_NAME }}/${{ env.REF_NAME }} npm run storybook:build
-      - name: "Publish bundle"
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
-        with:
-          branch: ${{ env.GH_PAGES_BRANCH }}
-          folder: storybook-static
-          target-folder: /${{ env.GH_PAGES_FOLDER }}/${{ env.REF_NAME }}
+      # - uses: actions/setup-node@v3
+      #   with:
+      #     node-version-file: ".nvmrc"
+      # - run: npm ci
+      # - name: "Build storybook"
+      #   run: APP_PREFIX=/${{ env.REPO_NAME }}/${{ env.REF_NAME }} npm run storybook:build
+      # - name: "Publish bundle"
+      #   uses: JamesIves/github-pages-deploy-action@v4.4.1
+      #   with:
+      #     branch: ${{ env.GH_PAGES_BRANCH }}
+      #     folder: storybook-static
+      #     target-folder: /${{ env.GH_PAGES_FOLDER }}/${{ env.REF_NAME }}
 
   catalog:
     needs: publish
@@ -56,11 +56,11 @@ jobs:
       - run: |
           npm i yargs
           npx . catalog \
-            --file ${GH_PAGES_FOLDER}${CATALOG_FILE} \
+            --file ${GH_PAGES_FOLDER}/${CATALOG_FILE} \
             --repo ${REPO_URL} \
             --homepage ${GH_PAGES_URL} \
             --ref ${REF} \
-            --refname ${REF_NAME} \
+            --label ${REF_NAME} \
             --sha ${SHA}
       - name: "Publish changes"
         uses: JamesIves/github-pages-deploy-action@v4.4.1

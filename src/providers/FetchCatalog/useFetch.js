@@ -15,9 +15,7 @@ export const CATALOG_SHAPE = {
 };
 
 function extract(data) {
-	/* eslint-disable camelcase, babel/camelcase */
-	const builds = data.builds.map(({ref_name, updated, ...rest}) => ({
-		label: ref_name,
+	const builds = data.builds.map(({updated, ...rest}) => ({
 		updated: updated && new Date(updated),
 		...rest,
 	}));
@@ -26,7 +24,6 @@ function extract(data) {
 		homepage: data.homepage,
 		repo: data.repo,
 	};
-	/* eslint-enable camelcase, babel/camelcase */
 }
 
 export default function useFetch() {

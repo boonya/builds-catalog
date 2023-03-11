@@ -1,20 +1,39 @@
-import {readFile} from 'fs/promises';
+import {readFile, writeFile} from 'fs/promises';
 import path from 'path';
 
-const log = {
-	info: (...args) => {
-		// eslint-disable-next-line no-console
-		console.info(...args);
-	},
-};
+const log = console;
+
+async function parseFile(file) {
+	try {
+	// eslint-disable-next-line security/detect-non-literal-fs-filename
+		const content = await readFile(new URL(file, import.meta.url));
+		return JSON.parse(content);
+	}
+	catch (err) {
+		log.warn('parseFile failed.', err);
+		return {};
+	}
+}
+
+function redoBuilds(props, builds = []) {
+	return [...builds.filter((build) => build.label !== props.label), {
+		ref: props.ref,
+		label: props.label,
+		sha: props.sha,
+		updated: new Date().toISOString(),
+	}];
+}
 
 export default async function catalog(yargs) {
-	// | [${REF_NAME}](${GH_PAGES_URL}${REF_NAME}) | [\`${SHA}\`](${REPO_URL}/tree/${SHA}) |
-	log.info('Catalog script has started!', {
+	const props = {
 		file: yargs.argv.file,
 		repo: yargs.argv.repo,
 		homepage: yargs.argv.homepage,
-	});
+		ref: yargs.argv.ref,
+		label: yargs.argv.label,
+		sha: yargs.argv.sha,
+	};
+	log.info('Catalog script has started!', props);
 
 	yargs
 		.option('file', {
@@ -36,7 +55,7 @@ export default async function catalog(yargs) {
 			required: true,
 			type: 'string',
 		})
-		.option('refname', {
+		.option('label', {
 			required: true,
 			type: 'string',
 		})
@@ -46,9 +65,24 @@ export default async function catalog(yargs) {
 		});
 
 	const file = path.resolve(yargs.argv.file);
+
+	const content = parseFile(file);
+	log.info('This is the current content:', content);
+
+	const builds = redoBuilds(props, content?.builds);
+
+	const newContent = {
+		builds,
+		homepage: props.homepage,
+		repo: props.repo,
+	};
+
+	log.info('This is gonna be new content:', newContent);
+
+	const string = JSON.stringify(newContent);
+
 	// eslint-disable-next-line security/detect-non-literal-fs-filename
-	const content = JSON.parse(await readFile(new URL(file, import.meta.url)));
-	log.info('This is the content:', content);
+	await writeFile(file, string);
 
 	log.info('Catalog script finished.');
 }
