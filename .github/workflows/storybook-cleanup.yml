@@ -1,4 +1,4 @@
-name: Cleanup storybook 🧹
+name: Storybook cleanup 🧹
 
 # Note: This event will only trigger a workflow run if the workflow file is on the default branch.
 # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#delete

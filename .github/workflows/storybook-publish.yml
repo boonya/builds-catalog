@@ -1,4 +1,4 @@
-name: Publishing storybook 🎨
+name: Publish Storybook 🎨
 
 on:
   pull_request:
@@ -11,13 +11,14 @@ permissions:
   pull-requests: write
 
 env:
-  REPO_URL: ${{ github.event.repository.html_url }} # https://github.com/boonya/backendless-apollo-client
-  REPO_NAME: ${{ github.event.repository.name }} # backendless-apollo-client
-  GH_PAGES_URL: ${{ github.event.repository.homepage }} # https://boonya.github.io/backendless-apollo-client/
+  CATALOG_FILE: catalog.json
   GH_PAGES_BRANCH: docs
   GH_PAGES_FOLDER: docs
-  MD_FILE: index.md
+  GH_PAGES_URL: ${{ github.event.repository.homepage }} # https://boonya.github.io/builds-catalog/
+  REPO_URL: ${{ github.event.repository.html_url }} # https://github.com/boonya/builds-catalog/
+  REPO_NAME: ${{ github.event.repository.name }} # builds-catalog
   SHA: ${{ github.event.after }} # sha hash of head
+  REF: ${{ github.ref }} # refs/heads/branch-name or refs/tags/tag-name or refs/pulls/8/merge
   REF_NAME: ${{ github.head_ref || github.ref_name }} # branch or tag name
   STORYBOOK_URL: ${{ github.event.repository.homepage }}${{ github.head_ref || github.ref_name }}
 
@@ -30,42 +31,47 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version-file: ".nvmrc"
-      - name: "Prepare variables"
-        run: |
-          echo "APP_PREFIX=/${REPO_NAME}/${REF_NAME}" >> $GITHUB_ENV
-          echo "STORYBOOK_STATIC_TARGET=/${GH_PAGES_FOLDER}/${REF_NAME}" >> $GITHUB_ENV
       - run: npm ci
-      - name: "Run storybook build"
-        run: APP_PREFIX=${APP_PREFIX} npm run storybook:build
+      - name: "Build storybook"
+        run: APP_PREFIX=/${{ env.REPO_NAME }}/${{ env.REF_NAME }} npm run storybook:build
       - name: "Publish bundle"
         uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
           branch: ${{ env.GH_PAGES_BRANCH }}
           folder: storybook-static
-          target-folder: ${{ env.STORYBOOK_STATIC_TARGET }}
+          target-folder: /${{ env.GH_PAGES_FOLDER }}/${{ env.REF_NAME }}
 
-  readme:
+  catalog:
     needs: publish
     name: "Update a catalog"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ${{ env.GH_PAGES_BRANCH }}
-      - name: "Update a catalog file"
-        run: |
-          SANITIZED_REF_NAME=$(printf '%s\n' "${REF_NAME}" | sed -e 's/[\/&]/\\&/g')
-          sed -i "/\[${SANITIZED_REF_NAME}\]/d" ${GH_PAGES_FOLDER}/${MD_FILE}
-          echo "| [${REF_NAME}](${GH_PAGES_URL}${REF_NAME}) | [\`${SHA}\`](${REPO_URL}/tree/${SHA}) |" >> ${GH_PAGES_FOLDER}/${MD_FILE}
+          ref: ${{ env.REF_NAME }}
+          # ref: ${{ env.GH_PAGES_BRANCH }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+      - run: |
+          npm i yargs
+          npx . catalog \
+            --file ${GH_PAGES_FOLDER}${CATALOG_FILE} \
+            --repo ${REPO_URL} \
+            --homepage ${GH_PAGES_URL} \
+            --ref ${REF} \
+            --refname ${REF_NAME} \
+            --sha ${SHA}
       - name: "Publish changes"
         uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
-          branch: ${{ env.GH_PAGES_BRANCH }}
+          branch: ${{ env.REF_NAME }}
+          # branch: ${{ env.GH_PAGES_BRANCH }}
           folder: ${{ env.GH_PAGES_FOLDER }}
           target-folder: ${{ env.GH_PAGES_FOLDER }}
 
   comment:
-    needs: publish
+    needs: catalog
     if: ${{ github.event_name == 'pull_request' }}
     name: "Add a comment to the PR"
     runs-on: ubuntu-latest

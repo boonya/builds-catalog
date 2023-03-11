@@ -1,0 +1,5 @@
+env:
+  browser: false
+  node: true
+extends:
+  - "bluedrop/config/node"

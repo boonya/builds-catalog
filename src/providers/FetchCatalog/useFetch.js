@@ -5,9 +5,29 @@ export const BUILD_SHAPE = {
 	ref: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	sha: PropTypes.string.isRequired,
+	updated: PropTypes.instanceOf(Date).isRequired,
+};
+
+export const CATALOG_SHAPE = {
+	builds: PropTypes.arrayOf(PropTypes.shape(BUILD_SHAPE)).isRequired,
 	homepage: PropTypes.string.isRequired,
 	repo: PropTypes.string.isRequired,
 };
+
+function extract(data) {
+	/* eslint-disable camelcase, babel/camelcase */
+	const builds = data.builds.map(({ref_name, updated, ...rest}) => ({
+		label: ref_name,
+		updated: updated && new Date(updated),
+		...rest,
+	}));
+	return {
+		builds,
+		homepage: data.homepage,
+		repo: data.repo,
+	};
+	/* eslint-enable camelcase, babel/camelcase */
+}
 
 export default function useFetch() {
 	const [data, setData] = useState();
@@ -20,8 +40,7 @@ export default function useFetch() {
 				setLoading(true);
 				const response = await fetch(`${APP_PREFIX}catalog.json`);
 				const json = await response.json();
-				// eslint-disable-next-line camelcase, babel/camelcase
-				setData(json.map(({ref_name, ...rest}) => ({label: ref_name, ...rest})));
+				setData(extract(json));
 			}
 			catch (err) {
 				setError(err);

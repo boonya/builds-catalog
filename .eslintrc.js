@@ -16,7 +16,6 @@ module.exports = {
 	},
 	extends: [
 		'bluedrop',
-		'bluedrop/config/node',
 		'bluedrop/config/babel',
 		'bluedrop/config/react',
 		'plugin:compat/recommended',

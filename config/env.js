@@ -4,6 +4,7 @@ const {
 	NODE_ENV,
 	APP_PREFIX,
 	DEV_SERVER_PORT,
+// eslint-disable-next-line node/no-process-env
 } = process.env;
 
 const value = (APP_PREFIX || '').replace(/^\/?(?<path>.*?)\/?$/u, '$1');
