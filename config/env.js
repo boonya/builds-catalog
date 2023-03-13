@@ -1,16 +1,13 @@
 require('dotenv').config({path: '.env.local'});
 
-const {
-	NODE_ENV,
-	APP_PREFIX,
-	DEV_SERVER_PORT,
-	CATALOG,
-// eslint-disable-next-line node/no-process-env
-} = process.env;
+const sanitized = (process.env.APP_PREFIX || '').replace(/^\/?(?<path>.*?)\/?$/u, '$1');
+const APP_PREFIX = sanitized ? `/${sanitized}/` : '/';
+
+const CATALOG = `${APP_PREFIX}${process.env.CATALOG}`;
 
 module.exports = {
-	NODE_ENV,
+	NODE_ENV: process.env.NODE_ENV || 'production',
 	APP_PREFIX,
-	CATALOG: `${APP_PREFIX}${CATALOG}`,
-	DEV_SERVER_PORT,
+	CATALOG,
+	DEV_SERVER_PORT: process.env.DEV_SERVER_PORT,
 };

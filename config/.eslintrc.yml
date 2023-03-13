@@ -7,6 +7,6 @@ extends:
 
 overrides:
   - files:
-      - "config/env.js"
+      - "env.js"
     rules:
       node/no-process-env: off
