@@ -1,4 +1,4 @@
-const {NODE_ENV, APP_PREFIX} = require('./env');
+const {NODE_ENV, APP_PREFIX, CATALOG} = require('./env');
 const {
 	buildDir,
 	htmlEntry,
@@ -34,6 +34,7 @@ module.exports = {
 		new webpack.DefinePlugin({
 			NODE_ENV: JSON.stringify(NODE_ENV),
 			APP_PREFIX: JSON.stringify(APP_PREFIX),
+			CATALOG: JSON.stringify(CATALOG),
 		}),
 		new CopyPlugin({patterns: [{
 			from: publicDir,
