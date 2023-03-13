@@ -10,23 +10,23 @@ permissions:
 env:
   GH_PAGES_BRANCH: docs
   GH_PAGES_FOLDER: docs
-  MD_FILE: index.md
+  CATALOG_FILE: docs/catalog.json
 
 jobs:
-  delete:
-    name: Delete redundant directory 🗑
+  cleanup:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           ref: ${{ env.GH_PAGES_BRANCH }}
       - name: "Remove a bundle directory"
-        run: rm -rf "${GH_PAGES_FOLDER}/${{ github.event.ref }}"
-      - name: "Update a catalog file"
-        run: |
-          SANITIZED_REF_NAME=$(printf '%s\n' "${{ github.event.ref }}" | sed -e 's/[\/&]/\\&/g')
-          sed -i "/\[${SANITIZED_REF_NAME}\]/d" ${GH_PAGES_FOLDER}/${MD_FILE}
-      - uses: JamesIves/github-pages-deploy-action@v4.4.0
+        run: rm -rf "${GH_PAGES_FOLDER}/${{ github.ref }}"
+      - uses: boonya/gh-actions@main
+        with:
+          catalog: ${{ env.CATALOG_FILE }}
+          remove: true
+      - name: "Publish changes"
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
           branch: ${{ env.GH_PAGES_BRANCH }}
           folder: ${{ env.GH_PAGES_FOLDER }}
