@@ -1,13 +1,30 @@
 import PropTypes from 'prop-types';
-import {useEffect, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 
 export const BUILD_SHAPE = {
 	ref: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	sha: PropTypes.string.isRequired,
+	updated: PropTypes.instanceOf(Date).isRequired,
+};
+
+export const CATALOG_SHAPE = {
+	builds: PropTypes.arrayOf(PropTypes.shape(BUILD_SHAPE)).isRequired,
 	homepage: PropTypes.string.isRequired,
 	repo: PropTypes.string.isRequired,
 };
+
+function extract({builds, homepage, repo}) {
+	const remapped = builds.map(({updated, ...rest}) => ({
+		updated: updated && new Date(updated),
+		...rest,
+	}));
+	return {
+		builds: remapped,
+		homepage,
+		repo,
+	};
+}
 
 export default function useFetch() {
 	const [data, setData] = useState();
@@ -18,10 +35,9 @@ export default function useFetch() {
 		(async () => {
 			try {
 				setLoading(true);
-				const response = await fetch(`${APP_PREFIX}catalog.json`);
+				const response = await fetch(CATALOG);
 				const json = await response.json();
-				// eslint-disable-next-line camelcase, babel/camelcase
-				setData(json.map(({ref_name, ...rest}) => ({label: ref_name, ...rest})));
+				setData(extract(json));
 			}
 			catch (err) {
 				setError(err);
@@ -33,5 +49,5 @@ export default function useFetch() {
 		})();
 	}, []);
 
-	return {data, loading, error};
+	return useMemo(() => ({data, loading, error}), [data, error, loading]);
 }

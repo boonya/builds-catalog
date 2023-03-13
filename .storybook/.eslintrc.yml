@@ -1,0 +1,12 @@
+overrides:
+  - files:
+      - "public/mockServiceWorker.js"
+    rules:
+      eslint-comments/disable-enable-pair: off
+      eslint-comments/no-unlimited-disable: off
+  - files:
+      - "main.js"
+    env:
+      node: true
+    extends:
+      - "bluedrop/config/node"

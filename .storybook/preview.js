@@ -1,6 +1,8 @@
 import {initialize, mswDecorator} from 'msw-storybook-addon';
+import {HelmetProvider} from 'react-helmet-async';
 import withStyle from '@sb/decorators/withStyle';
 import withTheme, {getThemeToolbar} from '@sb/decorators/withTheme';
+import wrapper from '@sb/decorators/wrapper';
 
 initialize({
 	serviceWorker: {url: `${APP_PREFIX}mockServiceWorker.js`},
@@ -8,6 +10,7 @@ initialize({
 });
 
 export const decorators = [
+	wrapper(undefined, HelmetProvider),
 	withStyle(),
 	withTheme(),
 	mswDecorator,

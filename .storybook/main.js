@@ -1,6 +1,5 @@
-const {NODE_ENV, APP_PREFIX} = require('../config/env');
+const {NODE_ENV} = require('../config/env');
 const webpackConfig = require('../config/webpack.common');
-const webpack = require('webpack');
 
 const loadersToExclude = [
 	/\.css$/u,
@@ -37,10 +36,7 @@ module.exports = {
 			mode: NODE_ENV || config.mode,
 			plugins: [
 				...config.plugins,
-				new webpack.DefinePlugin({
-					NODE_ENV: JSON.stringify(NODE_ENV),
-					APP_PREFIX: JSON.stringify(APP_PREFIX),
-				}),
+				webpackConfig.plugins[0],
 			],
 			module: {
 				...module,

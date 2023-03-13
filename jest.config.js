@@ -5,6 +5,8 @@ module.exports = {
 	testEnvironment: 'jest-environment-jsdom',
 	globals: {
 		NODE_ENV: 'test',
+		APP_PREFIX: '/subdir/',
+		CATALOG: '/subdir/config.json',
 	},
 	globalSetup: './test/setup/global.js',
 	setupFilesAfterEnv: ['./test/setup/index.js'],

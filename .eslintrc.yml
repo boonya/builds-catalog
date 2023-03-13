@@ -1,0 +1,75 @@
+root: true
+
+env:
+  browser: true
+  es2022: true
+
+globals:
+  NODE_ENV: true
+  APP_PREFIX: true
+  CATALOG: true
+
+parser: "@babel/eslint-parser"
+parserOptions:
+  ecmaVersion: 2022
+  sourceType: "module"
+
+extends:
+  - "bluedrop"
+  - "bluedrop/config/babel"
+  - "bluedrop/config/react"
+  - "plugin:compat/recommended"
+  - "plugin:storybook/recommended"
+  - "plugin:testing-library/react"
+  - "plugin:jest-dom/recommended"
+plugins:
+  - "compat"
+  - "testing-library"
+  - "jest-dom"
+
+settings:
+  react:
+    version: "18.2"
+  import/resolver:
+    babel-module: {}
+
+rules:
+  # If you are using eslint-plugin-react, the react/jsx-uses-react and react/react-in-jsx-scope
+  # rules are no longer necessary and can be turned off or removed.
+  # Read more: https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html#eslint
+  react/jsx-uses-react: "off"
+  react/react-in-jsx-scope: "off"
+  import/no-unassigned-import: ["warn", { allow: ["**/*.css"] }]
+
+overrides:
+  - files:
+      - "*.config.js"
+    env:
+      browser: false
+      jest: false
+      node: true
+    extends:
+      - "bluedrop/config/node"
+  - files:
+      - "**/*.test.js"
+    env:
+      jest: true
+    globals:
+      global: true
+  - files:
+      - "**/*.stories.js"
+      - "**/*.test.js"
+      - ".storybook/**"
+      - "test/**"
+    rules:
+      "import/no-anonymous-default-export": off
+      "react/no-multi-comp": off
+      "react/prop-types": off
+      "react/display-name": off
+  - files:
+      - "src/**/__response__/"
+      - "src/**/__data__/"
+    rules:
+      max-len: off
+      camelcase: off
+      babel/camelcase: off

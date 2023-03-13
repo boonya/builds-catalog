@@ -14,13 +14,13 @@ export default function BuildsList(props) {
 		return <GeneralError />;
 	}
 
-	if (!data?.length) {
+	if (!data?.builds?.length) {
 		return <GeneralError>There is no any build info.</GeneralError>;
 	}
 
 	return (
 		<ul {...props}>
-			{data.map(({ref, ...rest}) => <ListItem key={ref} id={ref} {...rest} />)}
+			{data.builds.map(({ref, ...rest}) => <ListItem key={ref} id={ref} {...rest} />)}
 		</ul>
 	);
 }

@@ -1,10 +1,11 @@
-const {NODE_ENV, APP_PREFIX} = require('./env');
+const {NODE_ENV, APP_PREFIX, CATALOG} = require('./env');
 const {
 	buildDir,
 	htmlEntry,
 	jsEntry,
 	nodeModulesDir,
 	publicDir,
+	srcDir,
 } = require('./path');
 const {description} = require('../package.json');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -34,11 +35,15 @@ module.exports = {
 		new webpack.DefinePlugin({
 			NODE_ENV: JSON.stringify(NODE_ENV),
 			APP_PREFIX: JSON.stringify(APP_PREFIX),
+			CATALOG: JSON.stringify(CATALOG),
 		}),
-		new CopyPlugin({patterns: [{
-			from: publicDir,
-			to: buildDir,
-		}]}),
+		new CopyPlugin({patterns: [
+			{
+				from: `${srcDir}/providers/FetchCatalog/__response__/sample.json`,
+				to: `${buildDir}/${CATALOG}`,
+			},
+			publicDir,
+		]}),
 		new HtmlWebpackPlugin({
 			filename: 'index.html',
 			template: htmlEntry,

@@ -1,4 +1,4 @@
-import {BUILD_SHAPE} from './useFetch';
+import {CATALOG_SHAPE} from './useFetch';
 import PropTypes from 'prop-types';
 import {createContext, useContext} from 'react';
 
@@ -18,7 +18,7 @@ export default function ContextProvider({children, ...props}) {
 
 ContextProvider.propTypes = {
 	children: PropTypes.node.isRequired,
-	data: PropTypes.arrayOf(PropTypes.shape(BUILD_SHAPE)),
+	data: PropTypes.shape(CATALOG_SHAPE),
 	error: PropTypes.instanceOf(Error),
 	loading: PropTypes.bool,
 };
