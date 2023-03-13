@@ -1,0 +1,76 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Storybook builds catalog</title><style>:root {
+	--light-background-color: #ffffff;
+	--light-text-color: #2f446c;
+	--light-link-color: #0c5e75;
+
+	--dark-background-color: #282c34;
+	--dark-text-color: #ffffff;
+	--dark-link-color: #61dafb;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background-color: var(--dark-background-color);
+		--text-color: var(--dark-text-color);
+		--link-color: var(--dark-link-color);
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	:root {
+		--background-color: var(--light-background-color);
+		--text-color: var(--light-text-color);
+		--link-color: var(--light-link-color);
+	}
+}
+
+html,
+body,
+#root {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+		"Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+		"Helvetica Neue", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background-color: var(--background-color);
+	color: var(--text-color);
+}
+
+a {
+	color: var(--link-color);
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+		monospace;
+}
+
+p {
+	display: block;
+	margin: 1em 0;
+}</style><style>#root-loading {
+			display: flex;
+			height: 100%;
+			width: 100%;
+			justify-content: center;
+			align-items: center;
+			animation: pulse-animation 1s infinite;
+			font-size: 2rem;
+		}
+		@keyframes pulse-animation {
+			0% {
+				opacity: 0.1;
+			}
+			50% {
+				opacity: 1;
+			}
+			100% {
+				opacity: 0.1;
+			}
+		}</style><base href="/builds-catalog/"/><script defer="defer" src="static/js/main.6a670441.js"></script></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"><span id="root-loading" role="progressbar">Loading...</span></div></body></html>
