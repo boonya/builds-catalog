@@ -1,4 +1,4 @@
-const {NODE_ENV, APP_PREFIX} = require('../config/env');
+const {NODE_ENV, APP_PREFIX, CATALOG} = require('../config/env');
 const webpackConfig = require('../config/webpack.common');
 const webpack = require('webpack');
 
@@ -40,6 +40,7 @@ module.exports = {
 				new webpack.DefinePlugin({
 					NODE_ENV: JSON.stringify(NODE_ENV),
 					APP_PREFIX: JSON.stringify(APP_PREFIX),
+					CATALOG: JSON.stringify(CATALOG),
 				}),
 			],
 			module: {
