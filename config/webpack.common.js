@@ -5,7 +5,6 @@ const {
 	jsEntry,
 	nodeModulesDir,
 	publicDir,
-	srcDir,
 } = require('./path');
 const {description} = require('../package.json');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -38,10 +37,6 @@ module.exports = {
 			CATALOG: JSON.stringify(CATALOG),
 		}),
 		new CopyPlugin({patterns: [
-			{
-				from: `${srcDir}/providers/FetchCatalog/__response__/sample.json`,
-				to: `${buildDir}/${CATALOG}`,
-			},
 			publicDir,
 		]}),
 		new HtmlWebpackPlugin({
