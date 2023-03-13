@@ -5,7 +5,6 @@ const {
 	jsEntry,
 	nodeModulesDir,
 	publicDir,
-	srcDir,
 } = require('./path');
 const {description} = require('../package.json');
 const CopyPlugin = require('copy-webpack-plugin');
