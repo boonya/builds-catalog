@@ -50,7 +50,7 @@ jobs:
         with:
           # ref: ${{ env.REF_NAME }}
           ref: ${{ env.GH_PAGES_BRANCH }}
-      - uses: boonya/gh-actions
+      - uses: boonya/gh-actions@main
         with:
           file: ${GH_PAGES_FOLDER}/${CATALOG_FILE}
           # homepage: ${GH_PAGES_URL}
