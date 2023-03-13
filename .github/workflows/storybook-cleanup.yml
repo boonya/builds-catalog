@@ -20,10 +20,11 @@ jobs:
         with:
           ref: ${{ env.GH_PAGES_BRANCH }}
       - name: "Remove a bundle directory"
-        run: rm -rf "${GH_PAGES_FOLDER}/${{ github.ref }}"
+        run: rm -rf "${GH_PAGES_FOLDER}/${{ github.event.ref }}"
       - uses: boonya/gh-actions@main # TODO: Use release tag as soon as possible
         with:
           catalog: ${{ env.CATALOG_FILE }}
+          ref: ${{ github.event.ref }}
           remove: true
       - name: "Publish changes"
         uses: JamesIves/github-pages-deploy-action@v4.4.1
