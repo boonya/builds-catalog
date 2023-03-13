@@ -1,6 +1,6 @@
 overrides:
   - files:
-      - ".storybook/public/mockServiceWorker.js"
+      - "public/mockServiceWorker.js"
     rules:
       eslint-comments/disable-enable-pair: off
       eslint-comments/no-unlimited-disable: off

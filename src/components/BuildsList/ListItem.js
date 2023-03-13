@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 export default function ListItem({id, label, sha}) {
 	return (
 		<>
-			<dt>{label}</dt>
+			<dt>{id}</dt>
 			<dd>
 				<details>
-					<summary>{sha}</summary>
-					{id}
+					<summary>{label}</summary>
+					<p>{sha}</p>
+					<p>{id}</p>
 				</details>
 			</dd>
 		</>

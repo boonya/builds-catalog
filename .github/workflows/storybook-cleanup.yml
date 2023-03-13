@@ -21,7 +21,7 @@ jobs:
           ref: ${{ env.GH_PAGES_BRANCH }}
       - name: "Remove a bundle directory"
         run: rm -rf "${GH_PAGES_FOLDER}/${{ github.ref }}"
-      - uses: boonya/gh-actions@main
+      - uses: boonya/gh-actions@main # TODO: Use release tag as soon as possible
         with:
           catalog: ${{ env.CATALOG_FILE }}
           remove: true

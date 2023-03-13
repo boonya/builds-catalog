@@ -14,12 +14,6 @@ env:
   GH_PAGES_BRANCH: docs
   GH_PAGES_FOLDER: docs
   CATALOG_FILE: docs/catalog.json
-  GH_PAGES_URL: ${{ github.event.repository.homepage }} # https://boonya.github.io/builds-catalog/
-  # REPO_URL: ${{ github.event.repository.html_url }} # https://github.com/boonya/builds-catalog/
-  REPO_NAME: ${{ github.event.repository.name }} # builds-catalog
-  # SHA: ${{ github.event.after }} # sha hash of head
-  # REF: ${{ github.ref }} # refs/heads/branch-name or refs/tags/tag-name or refs/pulls/8/merge
-  # LABEL: ${{ github.head_ref || github.ref_name }} # branch or tag name
   TARGET_FOLDER: /docs/${{ github.ref }}
   APP_PREFIX: /${{ github.event.repository.name }}/${{ github.ref }}
   STORYBOOK_URL: ${{ github.event.repository.homepage }}${{ github.ref }}
@@ -51,7 +45,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ env.GH_PAGES_BRANCH }}
-      - uses: boonya/gh-actions@main
+      - uses: boonya/gh-actions@main # TODO: Use release tag as soon as possible
         with:
           catalog: ${{ env.CATALOG_FILE }}
       - name: "Publish changes"
