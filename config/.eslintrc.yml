@@ -1,5 +1,12 @@
 env:
   browser: false
+  jest: false
   node: true
 extends:
   - "bluedrop/config/node"
+
+overrides:
+  - files:
+      - "config/env.js"
+    rules:
+      node/no-process-env: off

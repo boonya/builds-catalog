@@ -1,0 +1,14 @@
+overrides:
+  - files:
+      - "setup/*.js"
+      - "stubs/staticFile.js"
+    extends:
+      - "bluedrop/config/node"
+  - files:
+      - "setup/*.js"
+    rules:
+      node/no-process-env: off
+  - files:
+      - "**/*.js"
+    rules:
+      import/no-unassigned-import: off

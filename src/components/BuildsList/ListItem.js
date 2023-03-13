@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-export default function ListItem({id, label, sha, ...props}) {
+export default function ListItem({id, label, sha}) {
 	return (
 		<>
 			<dt>{label}</dt>
@@ -15,9 +15,9 @@ export default function ListItem({id, label, sha, ...props}) {
 }
 
 ListItem.propTypes = {
-	homepage: PropTypes.string.isRequired,
+	// homepage: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
-	repo: PropTypes.string.isRequired,
+	// repo: PropTypes.string.isRequired,
 	sha: PropTypes.string.isRequired,
 };

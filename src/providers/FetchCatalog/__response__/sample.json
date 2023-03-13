@@ -7,8 +7,8 @@
       "updated": "2023-03-11T16:03:09.622Z"
     },
     {
-      "ref": "refs/heads/branch",
-      "label": "branch",
+      "ref": "refs/heads/branch/name",
+      "label": "branch/name",
       "sha": "d92fcd700e977f618de2930abab91e158b400c5a",
       "updated": "2023-03-10T16:03:09.622Z"
     },
@@ -20,11 +20,11 @@
     },
     {
       "ref": "refs/pulls/8/merge",
-      "label": "head-branch",
+      "label": "branch-of-pr",
       "sha": "d92fcd700e977f618de2930abab91e158b400c5c",
       "updated": "2023-03-08T11:13:11.622Z"
     }
   ],
-  "homepage": "https://boonya.github.io/backendless-apollo-client/",
-  "repo": "https://github.com/boonya/backendless-apollo-client"
+  "homepage": "https://boonya.github.io/builds-catalog/",
+  "repo": "https://github.com/boonya/builds-catalog"
 }

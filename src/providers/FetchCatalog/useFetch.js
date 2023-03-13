@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import {useEffect, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 
 export const BUILD_SHAPE = {
 	ref: PropTypes.string.isRequired,
@@ -14,15 +14,15 @@ export const CATALOG_SHAPE = {
 	repo: PropTypes.string.isRequired,
 };
 
-function extract(data) {
-	const builds = data.builds.map(({updated, ...rest}) => ({
+function extract({builds, homepage, repo}) {
+	const remapped = builds.map(({updated, ...rest}) => ({
 		updated: updated && new Date(updated),
 		...rest,
 	}));
 	return {
-		builds,
-		homepage: data.homepage,
-		repo: data.repo,
+		builds: remapped,
+		homepage,
+		repo,
 	};
 }
 
@@ -35,7 +35,7 @@ export default function useFetch() {
 		(async () => {
 			try {
 				setLoading(true);
-				const response = await fetch(`${APP_PREFIX}catalog.json`);
+				const response = await fetch(CATALOG);
 				const json = await response.json();
 				setData(extract(json));
 			}
@@ -49,5 +49,5 @@ export default function useFetch() {
 		})();
 	}, []);
 
-	return {data, loading, error};
+	return useMemo(() => ({data, loading, error}), [data, error, loading]);
 }
