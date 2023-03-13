@@ -48,48 +48,56 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ${{ env.REF_NAME }}
-          # ref: ${{ env.GH_PAGES_BRANCH }}
-      - uses: actions/setup-node@v3
+          # ref: ${{ env.REF_NAME }}
+          ref: ${{ env.GH_PAGES_BRANCH }}
+      - uses: boonya/gh-actions
         with:
-          node-version-file: ".nvmrc"
-      - run: |
-          npm i yargs
-          npx . catalog \
-            --file ${GH_PAGES_FOLDER}/${CATALOG_FILE} \
-            --repo ${REPO_URL} \
-            --homepage ${GH_PAGES_URL} \
-            --ref ${REF} \
-            --label ${REF_NAME} \
-            --sha ${SHA}
+          file: ${GH_PAGES_FOLDER}/${CATALOG_FILE}
+          # homepage: ${GH_PAGES_URL}
+          # label: ${REF_NAME}
+          # ref: ${REF}
+          # repo: ${REPO_URL}
+          # sha: ${SHA}
+      # - uses: actions/setup-node@v3
+      #   with:
+      #     node-version-file: ".nvmrc"
+      # - run: |
+      #     npm i yargs
+      #     npx . catalog \
+      #       --file ${GH_PAGES_FOLDER}/${CATALOG_FILE} \
+      #       --repo ${REPO_URL} \
+      #       --homepage ${GH_PAGES_URL} \
+      #       --ref ${REF} \
+      #       --label ${REF_NAME} \
+      #       --sha ${SHA}
       - name: "Publish changes"
         uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
-          branch: ${{ env.REF_NAME }}
-          # branch: ${{ env.GH_PAGES_BRANCH }}
+          # branch: ${{ env.REF_NAME }}
+          branch: ${{ env.GH_PAGES_BRANCH }}
           folder: ${{ env.GH_PAGES_FOLDER }}
           target-folder: ${{ env.GH_PAGES_FOLDER }}
 
-  comment:
-    needs: catalog
-    if: ${{ github.event_name == 'pull_request' }}
-    name: "Add a comment to the PR"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Find Comment
-        uses: peter-evans/find-comment@v2
-        id: fc
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          comment-author: "github-actions[bot]"
-          body-includes: instance of storybook deployed
-      - name: Create of update a comment
-        uses: peter-evans/create-or-update-comment@v2
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          comment-id: ${{ steps.fc.outputs.comment-id }}
-          edit-mode: replace
-          body: |
-            ### You can play with these changes at [the separate instance of storybook deployed.][1]
-            [1]: ${{ env.STORYBOOK_URL }}
-          reactions: rocket
+  # comment:
+  #   needs: catalog
+  #   if: ${{ github.event_name == 'pull_request' }}
+  #   name: "Add a comment to the PR"
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Find Comment
+  #       uses: peter-evans/find-comment@v2
+  #       id: fc
+  #       with:
+  #         issue-number: ${{ github.event.pull_request.number }}
+  #         comment-author: "github-actions[bot]"
+  #         body-includes: instance of storybook deployed
+  #     - name: Create of update a comment
+  #       uses: peter-evans/create-or-update-comment@v2
+  #       with:
+  #         issue-number: ${{ github.event.pull_request.number }}
+  #         comment-id: ${{ steps.fc.outputs.comment-id }}
+  #         edit-mode: replace
+  #         body: |
+  #           ### You can play with these changes at [the separate instance of storybook deployed.][1]
+  #           [1]: ${{ env.STORYBOOK_URL }}
+  #         reactions: rocket
